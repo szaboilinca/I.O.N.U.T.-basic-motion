@@ -1,0 +1,51 @@
+package org.firstinspires.ftc.teamcode;
+
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+
+@TeleOp
+        (name="ionut")
+public class ionut extends LinearOpMode {
+
+    DcMotorEx LeftDriveUp,LeftDriveDown,RightDriveUp,RightDriveDown;
+
+    @Override
+    public void runOpMode() throws InterruptedException{
+
+        LeftDriveUp=hardwareMap.get(DcMotorEx.class, "LeftDriveUp");
+        LeftDriveDown=hardwareMap.get(DcMotorEx.class, "LeftDriveDown");
+        RightDriveUp=hardwareMap.get(DcMotorEx.class, "RightDriveUp");
+        RightDriveDown=hardwareMap.get(DcMotorEx.class, "RightDriveDown");
+
+        LeftDriveUp.setDirection(DcMotorSimple.Direction.FORWARD);
+        LeftDriveDown.setDirection(DcMotorSimple.Direction.FORWARD);
+        RightDriveUp.setDirection(DcMotorSimple.Direction.FORWARD);
+        RightDriveDown.setDirection(DcMotorSimple.Direction.FORWARD);
+
+        LeftDriveUp.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        LeftDriveDown.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        RightDriveUp.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        RightDriveDown.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        LeftDriveUp.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        LeftDriveDown.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        RightDriveUp.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        RightDriveDown.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        waitForStart();
+        while (opModeIsActive() && !isStopRequested()){
+
+            double vertical = -gamepad1.left_stick_x;
+            double pivot = gamepad1.left_stick_y;
+            double turn = gamepad1.right_stick_x;
+
+            LeftDriveUp.setPower( vertical + pivot + turn);
+            LeftDriveDown.setPower( - vertical - pivot + turn);
+            RightDriveUp.setPower( vertical - pivot + turn);
+            RightDriveDown.setPower( - vertical + pivot + turn);
+        }
+    }
+}
